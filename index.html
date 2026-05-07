@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invictus — Project Management Excellence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1D3A;
+    --navy-mid: #122548;
+    --gold: #C9963C;
+    --gold-light: #E8B84B;
+    --white: #FFFFFF;
+    --gray-100: #F5F7FA;
+    --gray-300: #CBD5E1;
+    --gray-600: #64748B;
+    --gray-900: #1E293B;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; color: var(--gray-900); line-height: 1.6; }
+
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(11,29,58,0.95); backdrop-filter: blur(12px);
+    padding: 0 60px; height: 72px; display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(201,150,60,0.2);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--white); letter-spacing: 1px; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { color: var(--gray-300); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.5px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta { background: var(--gold); color: var(--navy) !important; padding: 10px 24px; border-radius: 4px; font-weight: 700 !important; transition: background 0.2s !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+
+  .hero {
+    min-height: 100vh; background: var(--navy);
+    display: flex; align-items: center; position: relative; overflow: hidden;
+    padding: 120px 60px 80px;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -50%; right: -20%; width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(201,150,60,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1300px; margin: 0 auto; width: 100%;
+    align-items: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(201,150,60,0.12); border: 1px solid rgba(201,150,60,0.3);
+    padding: 6px 16px; border-radius: 100px; margin-bottom: 28px;
+  }
+  .hero-badge span { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif; font-size: 64px; font-weight: 900; color: var(--white);
+    line-height: 1.1; margin-bottom: 24px;
+  }
+  .hero h1 .gold { color: var(--gold); }
+  .hero-sub {
+    font-size: 18px; color: var(--gray-300); line-height: 1.8; max-width: 520px; margin-bottom: 40px;
+  }
+  .hero-actions { display: flex; gap: 16px; align-items: center; }
+  .btn-primary {
+    background: var(--gold); color: var(--navy); padding: 16px 36px; border-radius: 4px;
+    font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block;
+    transition: all 0.2s; border: 2px solid var(--gold);
+  }
+  .btn-primary:hover { background: var(--gold-light); border-color: var(--gold-light); transform: translateY(-1px); }
+  .btn-ghost {
+    color: var(--gray-300); font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 500; transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--white); }
+  .hero-visual {
+    position: relative; display: flex; justify-content: center; align-items: center;
+  }
+  .project-card-stack {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 40px; width: 100%; max-width: 480px;
+    backdrop-filter: blur(8px);
+  }
+  .stack-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+  .stack-title { color: var(--white); font-size: 16px; font-weight: 600; }
+  .stack-status { background: rgba(201,150,60,0.15); color: var(--gold); padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+  .progress-item { margin-bottom: 24px; }
+  .progress-label { display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .progress-label span { color: var(--gray-300); font-size: 13px; }
+  .progress-label strong { color: var(--white); font-size: 13px; }
+  .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; }
+  .pf-1 { width: 87%; background: var(--gold); }
+  .pf-2 { width: 62%; background: #4F9CF9; }
+  .pf-3 { width: 95%; background: #34D399; }
+  .pf-4 { width: 44%; background: #F87171; }
+  .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+  .metric { text-align: center; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; }
+  .metric .num { font-size: 28px; font-weight: 900; color: var(--gold); }
+  .metric .label { font-size: 11px; color: var(--gray-600); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  .stats-bar {
+    background: var(--white); border-bottom: 1px solid var(--gray-100);
+    padding: 60px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 100%;
+  }
+  .stat { text-align: center; }
+  .stat .num { font-size: 48px; font-weight: 900; color: var(--navy); line-height: 1; }
+  .stat .label { font-size: 14px; color: var(--gray-600); margin-top: 8px; letter-spacing: 0.5px; }
+
+  .services { background: var(--gray-100); padding: 100px 60px; }
+  .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 700; color: var(--navy); margin-bottom: 16px; }
+  .section-sub { font-size: 17px; color: var(--gray-600); max-width: 560px; line-height: 1.7; margin-bottom: 60px; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1200px; margin: 0 auto; }
+  .service-card {
+    background: var(--white); border-radius: 12px; padding: 40px 36px;
+    border: 1px solid var(--gray-100); transition: all 0.3s; cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--gold); transform: scaleX(0); transition: transform 0.3s;
+  }
+  .service-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(11,29,58,0.1); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon { width: 56px; height: 56px; background: rgba(201,150,60,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 24px; }
+  .service-card h3 { font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  .service-card p { font-size: 15px; color: var(--gray-600); line-height: 1.7; }
+  .service-link { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); font-size: 14px; font-weight: 600; text-decoration: none; margin-top: 20px; transition: gap 0.2s; }
+  .service-link:hover { gap: 10px; }
+
+  .why-us { background: var(--navy); padding: 100px 60px; }
+  .why-us .section-title { color: var(--white); }
+  .why-us .section-sub { color: rgba(255,255,255,0.5); }
+  .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1200px; margin: 0 auto; }
+  .why-item { display: flex; gap: 20px; padding: 32px; background: rgba(255,255,255,0.04); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); }
+  .why-num { font-size: 36px; font-weight: 900; color: var(--gold); opacity: 0.4; line-height: 1; }
+  .why-item h3 { color: var(--white); font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+  .why-item p { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.7; }
+
+  .cta-section { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%); padding: 100px 60px; text-align: center; }
+  .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 48px; color: var(--white); margin-bottom: 20px; }
+  .cta-section p { color: rgba(255,255,255,0.6); font-size: 18px; margin-bottom: 40px; }
+
+  footer { background: #071225; padding: 60px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+  .footer-brand { }
+  .footer-brand .nav-logo { margin-bottom: 16px; display: block; }
+  .footer-brand p { color: rgba(255,255,255,0.4); font-size: 14px; line-height: 1.7; }
+  .footer-col h4 { color: var(--white); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+  .footer-col a { display: block; color: rgba(255,255,255,0.4); font-size: 14px; text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--gold); }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    nav .nav-links { display: none; }
+    .hero { padding: 120px 20px 60px; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .hero h1 { font-size: 40px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 40px 20px; }
+    .services { padding: 60px 20px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">INVI<span>CTUS</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Services</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Projects</a></li>
+    <li><a href="#">Industries</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge"><span>Project Management Excellence</span></div>
+      <h1>Delivering Complex Projects <span class="gold">On Time.</span> On Budget. Every Time.</h1>
+      <p class="hero-sub">Invictus provides end-to-end project management solutions for energy, infrastructure, and development projects across the Americas, Africa, and Southeast Asia.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary">Start a Project</a>
+        <a href="#" class="btn-ghost">View Our Work →</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="project-card-stack">
+        <div class="stack-header">
+          <span class="stack-title">Active Projects Dashboard</span>
+          <span class="stack-status">Live</span>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Lagos Power Plant — Phase 2</span><strong>87%</strong></div>
+          <div class="progress-bar"><div class="progress-fill pf-1"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Wind Farm — São Paulo</span><strong>62%</strong></div>
+          <div class="progress-bar"><div class="progress-fill pf-2"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Port Infrastructure — Accra</span><strong>95%</strong></div>
+          <div class="progress-bar"><div class="progress-fill pf-3"></div></div>
+        </div>
+        <div class="progress-item" style="margin-bottom:0">
+          <div class="progress-label"><span>Solar Array — Arizona</span><strong>44%</strong></div>
+          <div class="progress-bar"><div class="progress-fill pf-4"></div></div>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><div class="num">14</div><div class="label">Active</div></div>
+          <div class="metric"><div class="num">8</div><div class="label">Completed</div></div>
+          <div class="metric"><div class="num">98%</div><div class="label">On-Time</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-bar">
+  <div class="stat"><div class="num">250+</div><div class="label">Projects Delivered</div></div>
+  <div class="stat"><div class="num">15</div><div class="label">Countries Served</div></div>
+  <div class="stat"><div class="num">$4.2B</div><div class="label">Project Value Managed</div></div>
+  <div class="stat"><div class="num">98%</div><div class="label">Client Satisfaction</div></div>
+</section>
+
+<section class="services">
+  <div class="section-tag">What We Do</div>
+  <h2 class="section-title">Project Management Services</h2>
+  <p class="section-sub">From initial planning through to commissioning and handover, we manage every phase of your project's lifecycle.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">📋</div>
+      <h3>Project Planning & Development</h3>
+      <p>Feasibility studies, site assessment, permitting, and full project structuring. We build the foundation for success before a single shovel breaks ground.</p>
+      <a href="#" class="service-link">Learn more →</a>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚙️</div>
+      <h3>Construction Management</h3>
+      <p>End-to-end construction oversight — scheduling, cost control, contractor management, QA/QC, and HSE compliance. Your project, our execution.</p>
+      <a href="#" class="service-link">Learn more →</a>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔧</div>
+      <h3>Operations & Maintenance</h3>
+      <p>Post-construction O&M strategies that maximize asset performance, extend equipment life, and optimize output across energy and infrastructure assets.</p>
+      <a href="#" class="service-link">Learn more →</a>
+    </div>
+  </div>
+</section>
+
+<section class="why-us">
+  <div class="section-tag" style="text-align:center">Why Invictus</div>
+  <h2 class="section-title" style="text-align:center">Built on Results. Trusted by Industry Leaders.</h2>
+  <p class="section-sub" style="text-align:center; margin: 0 auto 60px">We don't just manage projects — we own outcomes. Our team brings decades of hands-on experience in the world's most demanding markets.</p>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-num">01</div>
+      <div><h3>Global Reach, Local Expertise</h3><p>We operate across 15+ countries with deep knowledge of local regulations, culture, and supply chains.</p></div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">02</div>
+      <div><h3>Integrated Energy Expertise</h3><p>From solar and wind to combined-cycle gas plants, our team understands the full energy spectrum.</p></div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">03</div>
+      <div><h3>Risk Management First</h3><p>Every project is backed by rigorous risk frameworks — so delays and cost overruns are the exception, not the rule.</p></div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">04</div>
+      <div><h3>Full Lifecycle Capability</h3><p>Planning, development, construction, commissioning, and O&M — one partner from start to finish.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to Make Your Next Project a Success?</h2>
+  <p>Let's discuss your goals. No commitments — just a conversation about what Invictus can do for you.</p>
+  <a href="#" class="btn-primary">Schedule a Consultation</a>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <div class="nav-logo">INVI<span>CTUS</span></div>
+    <p>Project management excellence across energy, infrastructure, and development sectors worldwide.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Services</h4>
+    <a href="#">Project Planning</a>
+    <a href="#">Construction Mgmt</a>
+    <a href="#">O&M</a>
+    <a href="#">Energy Solutions</a>
+  </div>
+  <div class="footer-col">
+    <h4>Company</h4>
+    <a href="#">About Us</a>
+    <a href="#">Our Team</a>
+    <a href="#">Projects</a>
+    <a href="#">Locations</a>
+  </div>
+  <div class="footer-col">
+    <h4>Connect</h4>
+    <a href="#">Contact</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">Twitter</a>
+    <a href="#">Privacy Policy</a>
+  </div>
+</footer>
+
+</body>
+</html>

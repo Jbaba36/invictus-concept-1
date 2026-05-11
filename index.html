@@ -1,318 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Invictus — Project Management Excellence</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #0B1D3A;
-    --navy-mid: #122548;
-    --gold: #C9963C;
-    --gold-light: #E8B84B;
-    --white: #FFFFFF;
-    --gray-100: #F5F7FA;
-    --gray-300: #CBD5E1;
-    --gray-600: #64748B;
-    --gray-900: #1E293B;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Inter', sans-serif; color: var(--gray-900); line-height: 1.6; }
-
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    background: rgba(11,29,58,0.95); backdrop-filter: blur(12px);
-    padding: 0 60px; height: 72px; display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid rgba(201,150,60,0.2);
-  }
-  .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--white); letter-spacing: 1px; }
-  .nav-logo span { color: var(--gold); }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
-  .nav-links a { color: var(--gray-300); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.5px; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--gold); }
-  .nav-cta { background: var(--gold); color: var(--navy) !important; padding: 10px 24px; border-radius: 4px; font-weight: 700 !important; transition: background 0.2s !important; }
-  .nav-cta:hover { background: var(--gold-light) !important; }
-
-  .hero {
-    min-height: 100vh; background: var(--navy);
-    display: flex; align-items: center; position: relative; overflow: hidden;
-    padding: 120px 60px 80px;
-  }
-  .hero::before {
-    content: ''; position: absolute; top: -50%; right: -20%; width: 900px; height: 900px;
-    background: radial-gradient(circle, rgba(201,150,60,0.08) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .hero-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1300px; margin: 0 auto; width: 100%;
-    align-items: center;
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(201,150,60,0.12); border: 1px solid rgba(201,150,60,0.3);
-    padding: 6px 16px; border-radius: 100px; margin-bottom: 28px;
-  }
-  .hero-badge span { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-  .hero h1 {
-    font-family: 'Playfair Display', serif; font-size: 64px; font-weight: 900; color: var(--white);
-    line-height: 1.1; margin-bottom: 24px;
-  }
-  .hero h1 .gold { color: var(--gold); }
-  .hero-sub {
-    font-size: 18px; color: var(--gray-300); line-height: 1.8; max-width: 520px; margin-bottom: 40px;
-  }
-  .hero-actions { display: flex; gap: 16px; align-items: center; }
-  .btn-primary {
-    background: var(--gold); color: var(--navy); padding: 16px 36px; border-radius: 4px;
-    font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block;
-    transition: all 0.2s; border: 2px solid var(--gold);
-  }
-  .btn-primary:hover { background: var(--gold-light); border-color: var(--gold-light); transform: translateY(-1px); }
-  .btn-ghost {
-    color: var(--gray-300); font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
-    font-weight: 500; transition: color 0.2s;
-  }
-  .btn-ghost:hover { color: var(--white); }
-  .hero-visual {
-    position: relative; display: flex; justify-content: center; align-items: center;
-  }
-  .project-card-stack {
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px; padding: 40px; width: 100%; max-width: 480px;
-    backdrop-filter: blur(8px);
-  }
-  .stack-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
-  .stack-title { color: var(--white); font-size: 16px; font-weight: 600; }
-  .stack-status { background: rgba(201,150,60,0.15); color: var(--gold); padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; }
-  .progress-item { margin-bottom: 24px; }
-  .progress-label { display: flex; justify-content: space-between; margin-bottom: 8px; }
-  .progress-label span { color: var(--gray-300); font-size: 13px; }
-  .progress-label strong { color: var(--white); font-size: 13px; }
-  .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 3px; }
-  .pf-1 { width: 87%; background: var(--gold); }
-  .pf-2 { width: 62%; background: #4F9CF9; }
-  .pf-3 { width: 95%; background: #34D399; }
-  .pf-4 { width: 44%; background: #F87171; }
-  .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
-  .metric { text-align: center; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; }
-  .metric .num { font-size: 28px; font-weight: 900; color: var(--gold); }
-  .metric .label { font-size: 11px; color: var(--gray-600); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
-
-  .stats-bar {
-    background: var(--white); border-bottom: 1px solid var(--gray-100);
-    padding: 60px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 100%;
-  }
-  .stat { text-align: center; }
-  .stat .num { font-size: 48px; font-weight: 900; color: var(--navy); line-height: 1; }
-  .stat .label { font-size: 14px; color: var(--gray-600); margin-top: 8px; letter-spacing: 0.5px; }
-
-  .services { background: var(--gray-100); padding: 100px 60px; }
-  .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 700; color: var(--navy); margin-bottom: 16px; }
-  .section-sub { font-size: 17px; color: var(--gray-600); max-width: 560px; line-height: 1.7; margin-bottom: 60px; }
-  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1200px; margin: 0 auto; }
-  .service-card {
-    background: var(--white); border-radius: 12px; padding: 40px 36px;
-    border: 1px solid var(--gray-100); transition: all 0.3s; cursor: pointer;
-    position: relative; overflow: hidden;
-  }
-  .service-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: var(--gold); transform: scaleX(0); transition: transform 0.3s;
-  }
-  .service-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(11,29,58,0.1); }
-  .service-card:hover::before { transform: scaleX(1); }
-  .service-icon { width: 56px; height: 56px; background: rgba(201,150,60,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 24px; }
-  .service-card h3 { font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
-  .service-card p { font-size: 15px; color: var(--gray-600); line-height: 1.7; }
-  .service-link { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); font-size: 14px; font-weight: 600; text-decoration: none; margin-top: 20px; transition: gap 0.2s; }
-  .service-link:hover { gap: 10px; }
-
-  .why-us { background: var(--navy); padding: 100px 60px; }
-  .why-us .section-title { color: var(--white); }
-  .why-us .section-sub { color: rgba(255,255,255,0.5); }
-  .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1200px; margin: 0 auto; }
-  .why-item { display: flex; gap: 20px; padding: 32px; background: rgba(255,255,255,0.04); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); }
-  .why-num { font-size: 36px; font-weight: 900; color: var(--gold); opacity: 0.4; line-height: 1; }
-  .why-item h3 { color: var(--white); font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-  .why-item p { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.7; }
-
-  .cta-section { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%); padding: 100px 60px; text-align: center; }
-  .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 48px; color: var(--white); margin-bottom: 20px; }
-  .cta-section p { color: rgba(255,255,255,0.6); font-size: 18px; margin-bottom: 40px; }
-
-  footer { background: #071225; padding: 60px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
-  .footer-brand { }
-  .footer-brand .nav-logo { margin-bottom: 16px; display: block; }
-  .footer-brand p { color: rgba(255,255,255,0.4); font-size: 14px; line-height: 1.7; }
-  .footer-col h4 { color: var(--white); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
-  .footer-col a { display: block; color: rgba(255,255,255,0.4); font-size: 14px; text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
-  .footer-col a:hover { color: var(--gold); }
-
-  @media (max-width: 900px) {
-    nav { padding: 0 20px; }
-    nav .nav-links { display: none; }
-    .hero { padding: 120px 20px 60px; }
-    .hero-grid { grid-template-columns: 1fr; }
-    .hero-visual { display: none; }
-    .hero h1 { font-size: 40px; }
-    .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 40px 20px; }
-    .services { padding: 60px 20px; }
-    .services-grid { grid-template-columns: 1fr; }
-    .why-grid { grid-template-columns: 1fr; }
-    footer { grid-template-columns: 1fr 1fr; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invictus — Variation 1: HUD Command Center</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy-deep: #050D1F;
+      --navy-mid: #0D2040;
+      --gold: #E8A020;
+      --gold-dim: rgba(232,160,32,0.15);
+      --text: #E8EDF5;
+      --text-muted: #7A8BA8;
+      --grid-line: rgba(232,160,32,0.08);
+    }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--navy-deep);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* Military grid background */
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    /* Animated radial ring */
+    .ring-wrap {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 600px; height: 600px; pointer-events: none; z-index: 0;
+    }
+    .ring {
+      position: absolute; inset: 0; border-radius: 50%;
+      border: 1px solid rgba(232,160,32,0.12);
+      animation: pulse-ring 6s ease-in-out infinite;
+    }
+    .ring:nth-child(2) { animation-delay: -2s; }
+    .ring:nth-child(3) { animation-delay: -4s; }
+    @keyframes pulse-ring {
+      0%, 100% { opacity: 0.3; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+    /* Live UTC clock */
+    .utc-clock {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.15em;
+      color: var(--gold); opacity: 0.7;
+    }
+    /* Header */
+    header {
+      position: relative; z-index: 10;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 40px; border-bottom: 1px solid var(--gold-dim);
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.4rem;
+      color: var(--text); letter-spacing: 0.08em;
+    }
+    .logo span { color: var(--gold); }
+    nav { display: flex; gap: 32px; }
+    nav a { color: var(--text-muted); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
+    nav a:hover { color: var(--gold); }
+    .nav-status { display: flex; align-items: center; gap: 16px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #00E676; box-shadow: 0 0 8px #00E676; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    /* Hero */
+    .hero {
+      position: relative; z-index: 10;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+      padding: 80px 60px; min-height: calc(100vh - 80px);
+    }
+    .hero-left { max-width: 600px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-dim); border: 1px solid rgba(232,160,32,0.3);
+      border-radius: 4px; padding: 6px 14px;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 28px;
+    }
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 3.6rem; font-weight: 800; line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    h1 .accent { color: var(--gold); }
+    .hero-sub {
+      font-size: 0.85rem; line-height: 1.7;
+      color: var(--text-muted); margin-bottom: 40px;
+    }
+    .hero-ctas { display: flex; gap: 16px; }
+    .btn-primary {
+      background: var(--gold); color: var(--navy-deep);
+      padding: 14px 32px; border: none; border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace; font-weight: 700;
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none;
+    }
+    .btn-ghost {
+      background: transparent; color: var(--text);
+      padding: 14px 32px; border: 1px solid rgba(232,237,245,0.2);
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none;
+    }
+    /* HUD Cards */
+    .hud-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .hud-card {
+      background: rgba(13,32,64,0.6);
+      border: 1px solid rgba(232,160,32,0.15);
+      border-radius: 8px; padding: 24px;
+      position: relative; overflow: hidden;
+    }
+    .hud-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: var(--gold);
+    }
+    .hud-card-label {
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 10px;
+    }
+    .hud-card-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.8rem; font-weight: 700; color: var(--text);
+    }
+    .hud-card-unit { font-size: 0.7rem; color: var(--text-muted); }
+    .hud-card-bar {
+      margin-top: 12px; height: 3px; background: rgba(232,160,32,0.15);
+      border-radius: 2px; overflow: hidden;
+    }
+    .hud-card-fill {
+      height: 100%; background: var(--gold);
+      border-radius: 2px; transition: width 1s ease;
+    }
+    .hud-card-wide { grid-column: span 2; }
+    .hud-card-chart { grid-column: span 2; }
+    /* Project list */
+    .project-list { grid-column: span 2; }
+    .project-item {
+      display: grid; grid-template-columns: 40px 1fr 100px 100px;
+      gap: 16px; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid var(--gold-dim);
+    }
+    .project-num { font-size: 0.7rem; color: var(--gold); }
+    .project-name { font-size: 0.75rem; color: var(--text); }
+    .project-status { font-size: 0.6rem; text-align: right; padding: 4px 10px; border-radius: 3px; }
+    .status-green { background: rgba(0,230,118,0.12); color: #00E676; }
+    .status-amber { background: rgba(255,193,7,0.12); color: #FFC107; }
+    .project-pct { font-size: 0.7rem; text-align: right; color: var(--text-muted); }
+    /* Services */
+    .services {
+      position: relative; z-index: 10;
+      padding: 80px 60px;
+      border-top: 1px solid var(--gold-dim);
+    }
+    .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+    .section-tag { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .service-card {
+      background: var(--navy-mid); border: 1px solid var(--gold-dim);
+      border-radius: 8px; padding: 28px;
+    }
+    .service-num { font-size: 0.6rem; color: var(--gold); margin-bottom: 16px; }
+    .service-title { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; }
+    .service-desc { font-size: 0.72rem; color: var(--text-muted); line-height: 1.6; }
+    /* Footer */
+    footer { position: relative; z-index: 10; padding: 24px 60px; border-top: 1px solid var(--gold-dim); display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; color: var(--text-muted); }
+  </style>
 </head>
 <body>
+  <div class="grid-bg"></div>
+  <div class="ring-wrap">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
 
-<nav>
-  <div class="nav-logo">INVI<span>CTUS</span></div>
-  <ul class="nav-links">
-    <li><a href="#">Services</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="#">Projects</a></li>
-    <li><a href="#">Industries</a></li>
-    <li><a href="#">Contact</a></li>
-    <li><a href="#" class="nav-cta">Get Started</a></li>
-  </ul>
-</nav>
+  <header>
+    <div class="logo">INVICTUS<span>.</span></div>
+    <nav>
+      <a href="#">Programmes</a><a href="#">Delivery</a><a href="#">Recovery</a><a href="#">PMO</a><a href="#">About</a>
+    </nav>
+    <div class="nav-status">
+      <span class="utc-clock" id="clock">UTC 00:00:00</span>
+      <div class="status-dot"></div>
+    </div>
+  </header>
 
-<section class="hero">
-  <div class="hero-grid">
-    <div class="hero-content">
-      <div class="hero-badge"><span>Project Management Excellence</span></div>
-      <h1>Delivering Complex Projects <span class="gold">On Time.</span> On Budget. Every Time.</h1>
-      <p class="hero-sub">Invictus provides end-to-end project management solutions for energy, infrastructure, and development projects across the Americas, Africa, and Southeast Asia.</p>
-      <div class="hero-actions">
-        <a href="#" class="btn-primary">Start a Project</a>
-        <a href="#" class="btn-ghost">View Our Work →</a>
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-badge"><div class="badge-dot"></div>Programme & Project Management</div>
+      <h1>Command<br>Your <span class="accent">Programmes.</span><br>Deliver.</h1>
+      <p class="hero-sub">Invictus Group provides end-to-end programme management for complex projects and portfolios. We turn ambition into executable structure — from recovery to transformation.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn-primary">Review Our Work</a>
+        <a href="#" class="btn-ghost">Request Briefing</a>
       </div>
     </div>
-    <div class="hero-visual">
-      <div class="project-card-stack">
-        <div class="stack-header">
-          <span class="stack-title">Active Projects Dashboard</span>
-          <span class="stack-status">Live</span>
+    <div class="hud-grid">
+      <div class="hud-card">
+        <div class="hud-card-label">Active Programmes</div>
+        <div class="hud-card-value">47</div>
+        <div class="hud-card-bar"><div class="hud-card-fill" style="width:78%"></div></div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-card-label">On-Time Delivery</div>
+        <div class="hud-card-value">94<span class="hud-card-unit">%</span></div>
+        <div class="hud-card-bar"><div class="hud-card-fill" style="width:94%"></div></div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-card-label">Budget Recovered</div>
+        <div class="hud-card-value">£2.4<span class="hud-card-unit">B+</span></div>
+        <div class="hud-card-bar"><div class="hud-card-fill" style="width:100%"></div></div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-card-label">Sectors Covered</div>
+        <div class="hud-card-value">14</div>
+        <div class="hud-card-bar"><div class="hud-card-fill" style="width:70%"></div></div>
+      </div>
+      <div class="hud-card hud-card-wide">
+        <div class="hud-card-label">Portfolio Health Overview</div>
+        <div style="display:flex;gap:32px;margin-top:12px">
+          <div><div class="hud-card-value" style="font-size:1.2rem">31</div><div class="hud-card-unit" style="font-size:0.65rem;color:var(--text-muted)">Green</div></div>
+          <div><div style="border-left:1px solid var(--gold-dim);padding-left:32px"><div class="hud-card-value" style="font-size:1.2rem;color:#FFC107">12</div><div class="hud-card-unit" style="font-size:0.65rem;color:var(--text-muted)">Amber</div></div></div>
+          <div><div style="border-left:1px solid var(--gold-dim);padding-left:32px"><div class="hud-card-value" style="font-size:1.2rem;color:#FF5252">4</div><div class="hud-card-unit" style="font-size:0.65rem;color:var(--text-muted)">Red</div></div></div>
         </div>
-        <div class="progress-item">
-          <div class="progress-label"><span>Lagos Power Plant — Phase 2</span><strong>87%</strong></div>
-          <div class="progress-bar"><div class="progress-fill pf-1"></div></div>
+      </div>
+      <div class="hud-card project-list" style="grid-column:span 2">
+        <div class="hud-card-label" style="margin-bottom:16px">Current Engagements</div>
+        <div class="project-item" style="border-top:1px solid var(--gold-dim);padding-top:16px">
+          <div class="project-num">01</div><div class="project-name">National Infrastructure — Programme Office</div>
+          <div class="project-status status-green">Green</div><div class="project-pct">92%</div>
         </div>
-        <div class="progress-item">
-          <div class="progress-label"><span>Wind Farm — São Paulo</span><strong>62%</strong></div>
-          <div class="progress-bar"><div class="progress-fill pf-2"></div></div>
+        <div class="project-item">
+          <div class="project-num">02</div><div class="project-name">FinTech Platform Transformation</div>
+          <div class="project-status status-amber">Amber</div><div class="project-pct">68%</div>
         </div>
-        <div class="progress-item">
-          <div class="progress-label"><span>Port Infrastructure — Accra</span><strong>95%</strong></div>
-          <div class="progress-bar"><div class="progress-fill pf-3"></div></div>
+        <div class="project-item">
+          <div class="project-num">03</div><div class="project-name">Healthcare PMO Design & Build</div>
+          <div class="project-status status-green">Green</div><div class="project-pct">45%</div>
         </div>
-        <div class="progress-item" style="margin-bottom:0">
-          <div class="progress-label"><span>Solar Array — Arizona</span><strong>44%</strong></div>
-          <div class="progress-bar"><div class="progress-fill pf-4"></div></div>
-        </div>
-        <div class="metric-row">
-          <div class="metric"><div class="num">14</div><div class="label">Active</div></div>
-          <div class="metric"><div class="num">8</div><div class="label">Completed</div></div>
-          <div class="metric"><div class="num">98%</div><div class="label">On-Time</div></div>
+        <div class="project-item">
+          <div class="project-num">04</div><div class="project-name">Rail Recovery — Phase 2</div>
+          <div class="project-status status-green">Green</div><div class="project-pct">87%</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="stats-bar">
-  <div class="stat"><div class="num">250+</div><div class="label">Projects Delivered</div></div>
-  <div class="stat"><div class="num">15</div><div class="label">Countries Served</div></div>
-  <div class="stat"><div class="num">$4.2B</div><div class="label">Project Value Managed</div></div>
-  <div class="stat"><div class="num">98%</div><div class="label">Client Satisfaction</div></div>
-</section>
+  <section class="services">
+    <div class="section-header">
+      <div><div class="section-tag">Core Capabilities</div><div class="section-title">Six Disciplines. One Mission.</div></div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-num">01</div><div class="service-title">Programme & Portfolio Management</div><div class="service-desc">Strategic oversight and governance for complex, multi-workstream programmes.</div></div>
+      <div class="service-card"><div class="service-num">02</div><div class="service-title">Agile & Hybrid Delivery</div><div class="service-desc">Scalable delivery frameworks for fast-moving, uncertain environments.</div></div>
+      <div class="service-card"><div class="service-num">03</div><div class="service-title">Project Recovery & Turnaround</div><div class="service-desc">Rapid diagnosis and structured recovery for distressed projects.</div></div>
+      <div class="service-card"><div class="service-num">04</div><div class="service-title">PMO Design & Implementation</div><div class="service-desc">Build or restructure PMOs that deliver lasting operational capability.</div></div>
+      <div class="service-card"><div class="service-num">05</div><div class="service-title">Stakeholder & Change Management</div><div class="service-desc">Alignment, communication, and change adoption at every level.</div></div>
+      <div class="service-card"><div class="service-num">06</div><div class="service-title">Risk, Governance & Reporting</div><div class="service-desc">Structured risk frameworks and transparent reporting rhythms.</div></div>
+    </div>
+  </section>
 
-<section class="services">
-  <div class="section-tag">What We Do</div>
-  <h2 class="section-title">Project Management Services</h2>
-  <p class="section-sub">From initial planning through to commissioning and handover, we manage every phase of your project's lifecycle.</p>
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-icon">📋</div>
-      <h3>Project Planning & Development</h3>
-      <p>Feasibility studies, site assessment, permitting, and full project structuring. We build the foundation for success before a single shovel breaks ground.</p>
-      <a href="#" class="service-link">Learn more →</a>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">⚙️</div>
-      <h3>Construction Management</h3>
-      <p>End-to-end construction oversight — scheduling, cost control, contractor management, QA/QC, and HSE compliance. Your project, our execution.</p>
-      <a href="#" class="service-link">Learn more →</a>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🔧</div>
-      <h3>Operations & Maintenance</h3>
-      <p>Post-construction O&M strategies that maximize asset performance, extend equipment life, and optimize output across energy and infrastructure assets.</p>
-      <a href="#" class="service-link">Learn more →</a>
-    </div>
-  </div>
-</section>
+  <footer>
+    <div>© 2025 Invictus Group — invictus.nu</div>
+    <div style="color:var(--gold)">LIVE STATUS: OPERATIONAL</div>
+  </footer>
 
-<section class="why-us">
-  <div class="section-tag" style="text-align:center">Why Invictus</div>
-  <h2 class="section-title" style="text-align:center">Built on Results. Trusted by Industry Leaders.</h2>
-  <p class="section-sub" style="text-align:center; margin: 0 auto 60px">We don't just manage projects — we own outcomes. Our team brings decades of hands-on experience in the world's most demanding markets.</p>
-  <div class="why-grid">
-    <div class="why-item">
-      <div class="why-num">01</div>
-      <div><h3>Global Reach, Local Expertise</h3><p>We operate across 15+ countries with deep knowledge of local regulations, culture, and supply chains.</p></div>
-    </div>
-    <div class="why-item">
-      <div class="why-num">02</div>
-      <div><h3>Integrated Energy Expertise</h3><p>From solar and wind to combined-cycle gas plants, our team understands the full energy spectrum.</p></div>
-    </div>
-    <div class="why-item">
-      <div class="why-num">03</div>
-      <div><h3>Risk Management First</h3><p>Every project is backed by rigorous risk frameworks — so delays and cost overruns are the exception, not the rule.</p></div>
-    </div>
-    <div class="why-item">
-      <div class="why-num">04</div>
-      <div><h3>Full Lifecycle Capability</h3><p>Planning, development, construction, commissioning, and O&M — one partner from start to finish.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="cta-section">
-  <h2>Ready to Make Your Next Project a Success?</h2>
-  <p>Let's discuss your goals. No commitments — just a conversation about what Invictus can do for you.</p>
-  <a href="#" class="btn-primary">Schedule a Consultation</a>
-</section>
-
-<footer>
-  <div class="footer-brand">
-    <div class="nav-logo">INVI<span>CTUS</span></div>
-    <p>Project management excellence across energy, infrastructure, and development sectors worldwide.</p>
-  </div>
-  <div class="footer-col">
-    <h4>Services</h4>
-    <a href="#">Project Planning</a>
-    <a href="#">Construction Mgmt</a>
-    <a href="#">O&M</a>
-    <a href="#">Energy Solutions</a>
-  </div>
-  <div class="footer-col">
-    <h4>Company</h4>
-    <a href="#">About Us</a>
-    <a href="#">Our Team</a>
-    <a href="#">Projects</a>
-    <a href="#">Locations</a>
-  </div>
-  <div class="footer-col">
-    <h4>Connect</h4>
-    <a href="#">Contact</a>
-    <a href="#">LinkedIn</a>
-    <a href="#">Twitter</a>
-    <a href="#">Privacy Policy</a>
-  </div>
-</footer>
-
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getUTCHours()).padStart(2,'0');
+      const m = String(now.getUTCMinutes()).padStart(2,'0');
+      const s = String(now.getUTCSeconds()).padStart(2,'0');
+      document.getElementById('clock').textContent = 'UTC ' + h + ':' + m + ':' + s;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
 </body>
 </html>
